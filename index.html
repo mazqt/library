@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Page Title</title>
+  <meta charset="UTF-8" />
+</head>
+
+<body>
+  <h1 class="">My Little Library</h1>
+  <script>
+    let myLibrary = [[{
+      "title": "Dune",
+      "author": "Frank Herbert",
+      "page_count": 412,
+      "read": true
+    }],[{
+      "title": "Dune Messiah",
+      "author": "Frank Herbert",
+      "page_count": 256,
+      "read": true
+    }]];
+
+      function Book(title, author, page_count, read) {
+        this.title = title;
+        this.author = author;
+        this.page_count = page_count;
+        this.read = read;
+      }
+
+      function addBookToLibrary(book) {
+        myLibrary.push(book);
+      }
+  </script>
+</body>
+
+</html>
