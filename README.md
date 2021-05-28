@@ -1,1 +1,3 @@
 This is a brief project for the Odin Project's Javascript curriculum, where I'll be using basic JS knowledge and the knowledge I just picked up on prototype's to create a "library" application.
+
+After doing this projet, I've both gotten to work on a lot of things and learn others completely from scratch. There was a lot of DOM manipulation going on, and while I've experience with that through rails, it's different enough via ERB and rails fixing stuff automatically that I did not quite remember how to do it, so this project served as a really good refresher on that. The other major thing that I got from this project was learning to use localstorage in js, which was an incredibly nifty tool for this webapp.
