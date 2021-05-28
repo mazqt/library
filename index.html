@@ -36,18 +36,39 @@
   <script>
     const container = document.querySelector('#books');
     const form = document.forms[0];
-
     let myLibrary = [{
-      "title": "Dune",
-      "author": "Frank Herbert",
-      "page_count": 412,
-      "read": true
-    },{
-      "title": "Dune Messiah",
-      "author": "Frank Herbert",
-      "page_count": 256,
-      "read": false
-    }];
+        "title": "Dune",
+        "author": "Frank Herbert",
+        "page_count": 412,
+        "read": true
+      }, {
+        "title": "Dune Messiah",
+        "author": "Frank Herbert",
+        "page_count": 256,
+        "read": false
+      }];
+
+    if (storageAvailable('localStorage')) {
+        if (localStorage.getItem("library") === null) {
+          localStorage.setItem("library", JSON.stringify(myLibrary));
+        }
+        myLibrary = JSON.parse(localStorage.getItem("library"));
+        console.log(myLibrary);
+      } else {
+        myLibrary = [{
+        "title": "Dune",
+        "author": "Frank Herbert",
+        "page_count": 412,
+        "read": true
+      }, {
+        "title": "Dune Messiah",
+        "author": "Frank Herbert",
+        "page_count": 256,
+        "read": false
+      }];
+      }
+
+
 
       function Book(title, author, page_count, read) {
         this.title = title;
@@ -69,7 +90,6 @@
       function printLibrary() {
         myLibrary.forEach(function(book, index) {
           let bookDesc = createBookItem(book)
-          console.log(bookDesc);
           let item = createListItem(bookDesc, index);
           bookList.appendChild(item);
         })
@@ -126,9 +146,11 @@
         let formData = new FormData(this);
         let newBook = new Book(formData.get("title"), formData.get("author"), formData.get("page_count"), formData.get("read"));
         addBookToLibrary(newBook);
-
+        if (storageAvailable('localStorage')) {
+          localStorage.setItem("library", JSON.stringify(myLibrary))
+          location.reload();
+        }
         let bookDesc = createBookItem(newBook);
-        console.log(bookDesc);
         let item = createListItem(bookDesc, myLibrary.length - 1)
         bookList.appendChild(item);
         this.reset()
@@ -136,8 +158,13 @@
       });
 
       function deleteBook(index) {
-        delete myLibrary[index];
-        console.log(myLibrary);
+        if (storageAvailable('localStorage')) {
+          myLibrary.splice(index, 1);
+          localStorage.setItem("library", JSON.stringify(myLibrary))
+          location.reload();
+        } else {
+          delete myLibrary[index];
+        }
       }
 
       function toggleRead(index) {
@@ -146,7 +173,37 @@
         } else {
           myLibrary[index].read = true;
         }
+        if (storageAvailable('localStorage')) {
+          localStorage.setItem("library", JSON.stringify(myLibrary))
+          location.reload();
+        }
       }
+
+      function storageAvailable(type) {
+          var storage;
+          try {
+            storage = window[type];
+            var x = '__storage_test__';
+            storage.setItem(x, x);
+            storage.removeItem(x);
+            return true;
+          }
+          catch (e) {
+            return e instanceof DOMException && (
+              // everything except Firefox
+              e.code === 22 ||
+              // Firefox
+              e.code === 1014 ||
+              // test name field too, because code might not be present
+              // everything except Firefox
+              e.name === 'QuotaExceededError' ||
+              // Firefox
+              e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+              // acknowledge QuotaExceededError only if there's something already stored
+              (storage && storage.length !== 0);
+          }
+        }
+
   </script>
 </body>
 
