@@ -18,22 +18,24 @@
     <div class="bookForm" id="bookForm">
       <form>
         <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title"><br>
+        <input type="text" id="title" name="title" required><br>
         <label for="author">Author:</label><br>
-        <input type="text" id="author" name="author"><br>
+        <input type="text" id="author" name="author" required><br>
         <label for="page_count">Page Count:</label><br>
-        <input type="text" id="page_count" name="page_count"><br>
+        <input type="text" id="page_count" name="page_count" required><br>
         <label for="read">Read?:</label><br>
-        <select id="read" name="read">
+        <select id="read" name="read" required>
           <option value="true">Yes, I've already read it</option>
           <option value="false">No, not yet!</option>
-        </select>
+        </select><br>
+        <button type="submit">Add new book to the library</button>
       </form>
     </div>
   </div>
 
   <script>
-    const container = document.querySelector('#books')
+    const container = document.querySelector('#books');
+    const form = document.forms[0];
 
     let myLibrary = [{
       "title": "Dune",
@@ -60,9 +62,9 @@
 
       const bookList = document.createElement("ul");
 
-      for (var i = 0; i < myLibrary.length; i++) {
-        var bookDesc = myLibrary[i]["title"] + " is a book written by " + myLibrary[i]["author"] + ", it clocks in at " + myLibrary[i]["page_count"] + " pages long."
-        if (myLibrary[i]["read"]) {
+      myLibrary.forEach(book => {
+        var bookDesc =  book.title + " is a book written by " + book.author + ", it clocks in at " + book.page_count + " pages long.";
+         if (book.read) {
           bookDesc += " I have read it."
         } else {
           bookDesc += " I have not yet read it"
@@ -71,13 +73,21 @@
         var div = document.createElement('li');
         div.textContent = bookDesc;
         bookList.appendChild(div);
-      }
+      })
 
       container.appendChild(bookList);
 
       document.getElementById("formToggle").onclick = function() {
         document.getElementById("bookForm").classList.toggle("show");
       };
+
+      form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+        var newBook = new Book(formData.get("title"), formData.get("author"), formData.get("page_count"), formData.get("read"))
+        console.log(newBook);
+        this.reset;
+      });
   </script>
 </body>
 
