@@ -4,6 +4,7 @@
 <head>
   <title>Page Title</title>
   <meta charset="UTF-8" />
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -11,6 +12,26 @@
   <div id="books">
 
   </div>
+
+  <div class="form">
+    <button id="formToggle">New book</button>
+    <div class="bookForm" id="bookForm">
+      <form>
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title"><br>
+        <label for="author">Author:</label><br>
+        <input type="text" id="author" name="author"><br>
+        <label for="page_count">Page Count:</label><br>
+        <input type="text" id="page_count" name="page_count"><br>
+        <label for="read">Read?:</label><br>
+        <select id="read" name="read">
+          <option value="true">Yes, I've already read it</option>
+          <option value="false">No, not yet!</option>
+        </select>
+      </form>
+    </div>
+  </div>
+
   <script>
     const container = document.querySelector('#books')
 
@@ -40,7 +61,7 @@
       const bookList = document.createElement("ul");
 
       for (var i = 0; i < myLibrary.length; i++) {
-        var bookDesc = myLibrary[i]["title"] + " is a book written by " + myLibrary[i]["author"] + ", it clocks in at " + myLibrary[i]["page_count"] + " pages long and"
+        var bookDesc = myLibrary[i]["title"] + " is a book written by " + myLibrary[i]["author"] + ", it clocks in at " + myLibrary[i]["page_count"] + " pages long."
         if (myLibrary[i]["read"]) {
           bookDesc += " I have read it."
         } else {
@@ -53,6 +74,10 @@
       }
 
       container.appendChild(bookList);
+
+      document.getElementById("formToggle").onclick = function() {
+        document.getElementById("bookForm").classList.toggle("show");
+      };
   </script>
 </body>
 
