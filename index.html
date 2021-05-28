@@ -8,18 +8,23 @@
 
 <body>
   <h1 class="">My Little Library</h1>
+  <div id="books">
+
+  </div>
   <script>
-    let myLibrary = [[{
+    const container = document.querySelector('#books')
+
+    let myLibrary = [{
       "title": "Dune",
       "author": "Frank Herbert",
       "page_count": 412,
       "read": true
-    }],[{
+    },{
       "title": "Dune Messiah",
       "author": "Frank Herbert",
       "page_count": 256,
-      "read": true
-    }]];
+      "read": false
+    }];
 
       function Book(title, author, page_count, read) {
         this.title = title;
@@ -31,6 +36,23 @@
       function addBookToLibrary(book) {
         myLibrary.push(book);
       }
+
+      const bookList = document.createElement("ul");
+
+      for (var i = 0; i < myLibrary.length; i++) {
+        var bookDesc = myLibrary[i]["title"] + " is a book written by " + myLibrary[i]["author"] + ", it clocks in at " + myLibrary[i]["page_count"] + " pages long and"
+        if (myLibrary[i]["read"]) {
+          bookDesc += " I have read it."
+        } else {
+          bookDesc += " I have not yet read it"
+        }
+        console.log(bookDesc);
+        var div = document.createElement('li');
+        div.textContent = bookDesc;
+        bookList.appendChild(div);
+      }
+
+      container.appendChild(bookList);
   </script>
 </body>
 
