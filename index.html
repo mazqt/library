@@ -52,8 +52,12 @@
       function Book(title, author, page_count, read) {
         this.title = title;
         this.author = author;
-        this.page_count = page_count;
-        this.read = read;
+        this.page_count = parseInt(page_count);
+        if (read == "true") {
+          this.read = true;
+        } else {
+          this.read = false;
+        }
       }
 
       function addBookToLibrary(book) {
@@ -62,18 +66,33 @@
 
       const bookList = document.createElement("ul");
 
-      myLibrary.forEach(book => {
-        var bookDesc =  book.title + " is a book written by " + book.author + ", it clocks in at " + book.page_count + " pages long.";
-         if (book.read) {
-          bookDesc += " I have read it."
-        } else {
-          bookDesc += " I have not yet read it"
-        }
-        console.log(bookDesc);
-        var div = document.createElement('li');
-        div.textContent = bookDesc;
-        bookList.appendChild(div);
-      })
+      function printLibrary() {
+        myLibrary.forEach(function(book, index) {
+          let bookDesc = book.title + " is a book written by " + book.author + ", it clocks in at " + book.page_count + " pages long.";
+          if (book.read) {
+            bookDesc += " I have read it."
+          } else {
+            bookDesc += " I have not yet read it"
+          }
+          console.log(bookDesc);
+          let item = document.createElement('li');
+          item.setAttribute("data-index", index)
+          item.textContent = bookDesc;
+          let readButton = document.createElement("input");
+          readButton.type = "button";
+          readButton.id = "toggleRead";
+          readButton.value = "Change read status";
+          item.appendChild(readButton);
+          let deleteButton = document.createElement("input");
+          deleteButton.type = "button";
+          deleteButton.id = "delete";
+          deleteButton.value = "Remove from library";
+          item.appendChild(deleteButton)
+          bookList.appendChild(item);
+        })
+      }
+
+      printLibrary();
 
       container.appendChild(bookList);
 
@@ -83,10 +102,21 @@
 
       form.addEventListener("submit", function(event) {
         event.preventDefault();
-        var formData = new FormData(this);
-        var newBook = new Book(formData.get("title"), formData.get("author"), formData.get("page_count"), formData.get("read"))
-        console.log(newBook);
-        this.reset;
+        let formData = new FormData(this);
+        let newBook = new Book(formData.get("title"), formData.get("author"), formData.get("page_count"), formData.get("read"));
+        addBookToLibrary(newBook);
+
+        let bookDesc = newBook.title + " is a book written by " + newBook.author + ", it clocks in at " + newBook.page_count + " pages long.";
+        if (newBook.read) {
+          bookDesc += " I have read it."
+        } else {
+          bookDesc += " I have not yet read it"
+        }
+        console.log(bookDesc);
+        let div = document.createElement('li');
+        div.textContent = bookDesc;
+        bookList.appendChild(div);
+
       });
   </script>
 </body>

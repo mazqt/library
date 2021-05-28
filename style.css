@@ -1,3 +1,9 @@
-.bookForm {display:none;}
-.show {display:block;}
-
+.bookForm {
+  display:none;
+}
+.show {
+  display:block;
+}
+ol li{
+  display: inline-block;
+}
