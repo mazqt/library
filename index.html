@@ -120,8 +120,11 @@
         console.log(bookDesc);
         let item = createListItem(bookDesc, myLibrary.length)
         bookList.appendChild(item);
-        this.reset();
+        this.reset()
+        document.getElementById("bookForm").classList.toggle("show");
       });
+
+      document.getElementById("toggleRead").onclick
   </script>
 </body>
 
